@@ -57,7 +57,15 @@ db.addUser(
 )
 sh.enableSharding("assetGroupDetail")
 sh.shardCollection("assetGroupDetail.assetGroupDetail", {"accountId": 1, "assetGroupId": 1})
-
+db.assetGroupDetail.ensureIndex(
+    {
+      "accountId": 1,
+      "path": 1
+    },
+	{
+	  "name": "accountId_1_path_1"
+	}
+)
 
 //---------------------------------
 //------- deviceAlert -------------
@@ -83,6 +91,7 @@ db.deviceAlert.ensureIndex(
       "name": "accountId_1_deviceId_1"
     }
 )
+
 
 //---------------------------------
 //----- deviceCommandEvent --------
