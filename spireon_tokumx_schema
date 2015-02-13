@@ -122,6 +122,8 @@ db.deviceAlert.ensureIndex(
     }
 )
 
+
+
 //---------------------------------
 //----- deviceCommandEvent --------
 //---------------------------------
@@ -999,6 +1001,18 @@ db.o2cActivationLog.ensureIndex(
 
 use order2cash
 db.createCollection("o2cDeviceTestLog")
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
