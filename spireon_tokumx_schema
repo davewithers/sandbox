@@ -91,7 +91,36 @@ db.deviceAlert.ensureIndex(
       "name": "accountId_1_deviceId_1"
     }
 )
-
+db.deviceAlert.ensureIndex(
+    {
+      "accountId": 1,
+      "deviceId": 1,
+	  "alertTypeId": 1,
+	  "alertDate": -1
+    },
+    {
+      "name": "accountId_1_deviceId_1_alertTypeId_1_alertDate_-1"
+    }
+)
+db.deviceAlert.ensureIndex(
+    {
+      "accountId": 1,
+      "alertSpecId": 1
+    },
+    {
+      "name": "accountId_1_alertSpecId_1"
+    }
+)
+db.deviceAlert.ensureIndex(
+    {
+      "realert": 1,
+      "realertTime": 1
+    },
+    {
+      "name": "realert_1_realertTime_1",
+	  "sparse": true
+    }
+)
 
 //---------------------------------
 //----- deviceCommandEvent --------
