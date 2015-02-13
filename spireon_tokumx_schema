@@ -1,0 +1,974 @@
+//---------------------------------
+//--------- accountDetail ---------
+//---------------------------------
+
+use accountDetail
+db.createCollection("accountDetail")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+db.accountDetail.ensureIndex(
+    {
+      "key": 1
+    }, {
+  "name": "key_1"
+}
+)
+db.accountDetail.ensureIndex(
+    {
+      "accountId": 1
+    }, {
+  "unique": true,
+  "name": "accountId_1",
+  "dropDups": true
+}
+)
+
+//---------------------------------
+//--------- assetCluster ----------
+//---------------------------------
+
+use assetCluster
+db.createCollection("assetCluster")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+
+//---------------------------------
+//------- assetGroupDetail --------
+//---------------------------------
+
+use assetGroupDetail
+db.createCollection("assetGroupDetail")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+sh.enableSharding("assetGroupDetail")
+sh.shardCollection("assetGroupDetail.assetGroupDetail", {"accountId": 1, "assetGroupId": 1})
+
+
+//---------------------------------
+//------- deviceAlert -------------
+//---------------------------------
+
+use deviceAlert
+db.createCollection("deviceAlert")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+sh.enableSharding("deviceAlert")
+sh.shardCollection("deviceAlert.deviceAlert", {"accountId": 1, "deviceId": 1})
+db.deviceAlert.ensureIndex(
+    {
+      "accountId": 1,
+      "deviceId": 1
+    },
+    {
+      "name": "accountId_1_deviceId_1"
+    }
+)
+
+//---------------------------------
+//----- deviceCommandEvent --------
+//---------------------------------
+
+use deviceCommandEvent
+db.createCollection("deviceCommandEvent")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+sh.enableSharding("deviceCommandEvent")
+sh.shardCollection("deviceCommandEvent.deviceCommandEvent", {"accountId": 1, "deviceId": 1})
+db.deviceCommandEvent.ensureIndex(
+    {
+      "accountId": 1,
+      "deviceId": 1
+    },
+    {
+      "name": "accountId_1_deviceId_1"
+    }
+)
+db.deviceCommandEvent.ensureIndex(
+    {
+      "pending": 1
+    },
+    {
+      "name": "pending_1",
+      "sparse": true
+    }
+)
+
+//---------------------------------
+//---- deviceCommandSpecEvent -----
+//---------------------------------
+
+use deviceCommandEvent
+db.createCollection("deviceCommandSpecEvent")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+sh.shardCollection("deviceCommandEvent.deviceCommandSpecEvent", {"accountId": 1, "deviceCommandSpecId": 1})
+db.deviceCommandSpecEvent.ensureIndex(
+    {
+      "accountId": 1,
+      "deviceCommandSpecId": 1
+    },
+    {
+      "name": "accountId_1_deviceCommandSpecId_1"
+    }
+)
+db.deviceCommandSpecEvent.ensureIndex(
+    {
+      "accountId": 1,
+      "deviceCommandSpecId": 1,
+      "sendDate": -1
+    },
+    {
+      "name": "accountId_1_deviceCommandSpecId_1_sendDate_-1"
+    }
+)
+
+
+//---------------------------------
+//--------- deviceDetail ----------
+//---------------------------------
+
+use deviceDetail
+db.createCollection("deviceDetail")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+sh.enableSharding("deviceDetail")
+sh.shardCollection("deviceDetail.deviceDetail", {"accountId": 1, "deviceId": 1})
+db.deviceDetail.ensureIndex(
+    {
+      "accountId": 1,
+      "deviceId": 1
+    },
+    {
+      "name": "accountId_1_deviceId_1"
+    }
+)
+db.deviceDetail.ensureIndex(
+    {
+      "accountId": 1,
+      "assetId": 1
+    },
+    {
+      "name": "accountId_1_assetId_1"
+    }
+)
+db.deviceDetail.ensureIndex(
+    {
+      "accountId": 1,
+      "operatorId": 1
+    },
+    {
+      "name": "accountId_1_operatorId_1"
+    }
+)
+db.deviceDetail.ensureIndex(
+    {
+      "accountId": 1,
+      "lat": 1,
+	  "lng": 1
+    },
+    {
+      "name": "accountId_1_lat_1_lng_1"
+    }
+)
+db.deviceDetail.ensureIndex(
+    {
+      "accountId": 1,
+      "landmarkId": 1
+    },
+    {
+      "name": "accountId_1_landmarkId_1"
+    }
+)
+
+//---------------------------------
+//----- deviceEvent --------
+//---------------------------------
+
+use deviceEvent
+db.createCollection("deviceEvent")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+
+//---------------------------------
+//----- deviceEvent_keys --------
+//---------------------------------
+
+use deviceEvent
+db.createCollection("deviceEvent_keys")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+
+//---------------------------------
+//----- deviceGeofenceEvent -------
+//---------------------------------
+
+use deviceGeofenceEvent
+db.createCollection("deviceGeofenceEvent")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+sh.enableSharding("deviceGeofenceEvent")
+sh.shardCollection("deviceGeofenceEvent.deviceGeofenceEvent", {"accountId": 1, "deviceId": 1})
+db.deviceGeofenceEvent.ensureIndex(
+    {
+      "accountId": 1,
+      "deviceId": 1
+    },
+    {
+      "name": "accountId_1_deviceId_1"
+    }
+)
+db.deviceGeofenceEvent.ensureIndex(
+    {
+      "accountId": 1,
+      "deviceId": 1,
+	  "endDate": -1
+    },
+    {
+      "name": "accountId_1_deviceId_1_endDate_-1"
+    }
+)
+db.deviceGeofenceEvent.ensureIndex(
+    {
+      "accountId": 1,
+      "geofenceId": 1
+    },
+    {
+      "name": "accountId_1_geofenceId_1"
+    }
+)
+
+
+//---------------------------------
+//----- deviceJobEvent -------
+//---------------------------------
+
+use deviceJobEvent
+db.createCollection("deviceJobEvent")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+sh.enableSharding("deviceJobEvent")
+sh.shardCollection("deviceJobEvent.deviceJobEvent", {"accountId": 1, "deviceId": 1})
+db.deviceJobEvent.ensureIndex(
+    {
+      "accountId": 1,
+      "deviceId": 1
+    },
+    {
+      "name": "accountId_1_deviceId_1"
+    }
+)
+db.deviceJobEvent.ensureIndex(
+    {
+      "accountId": 1,
+      "deviceId": 1,
+	  "scheduledStart": -1
+    },
+    {
+      "name": "accountId_1_deviceId_1_scheduledStart_-1"
+    }
+)
+
+//---------------------------------
+//----- deviceLandmarkEvent -------
+//---------------------------------
+
+use deviceLandmarkEvent
+db.createCollection("deviceLandmarkEvent")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+sh.enableSharding("deviceLandmarkEvent")
+sh.shardCollection("deviceLandmarkEvent.deviceLandmarkEvent", {"accountId": 1, "deviceId": 1})
+db.deviceLandmarkEvent.ensureIndex(
+    {
+      "accountId": 1,
+      "deviceId": 1
+    },
+    {
+      "name": "accountId_1_deviceId_1"
+    }
+)
+db.deviceLandmarkEvent.ensureIndex(
+    {
+      "accountId": 1,
+      "landmarkId": 1
+    },
+    {
+      "name": "accountId_1_landmarkId_1"
+    }
+)
+db.deviceLandmarkEvent.ensureIndex(
+    {
+      "accountId": 1,
+      "deviceId": 1,
+	  "landmarkId": 1,
+	  "endDate": -1
+    },
+    {
+      "name": "accountId_1_deviceId_1_landmarkId_1_endDate_-1"
+    }
+)
+
+//---------------------------------
+//----- deviceMessageEvent -------
+//---------------------------------
+
+use deviceMessageEvent
+db.createCollection("deviceMessageEvent")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+sh.enableSharding("deviceMessageEvent")
+sh.shardCollection("deviceMessageEvent.deviceMessageEvent", {"accountId": 1, "deviceId": 1})
+db.deviceMessageEvent.ensureIndex(
+    {
+      "accountId": 1,
+      "deviceId": 1
+    },
+    {
+      "name": "accountId_1_deviceId_1"
+    }
+)
+db.deviceMessageEvent.ensureIndex(
+    {
+      "accountId": 1,
+      "deviceId": 1,
+	  "eventDate": -1
+    },
+    {
+      "name": "accountId_deviceId_1_eventDate_-1"
+    }
+)
+
+//---------------------------------
+//----- devicePayload -------
+//---------------------------------
+
+use devicePayload
+db.createCollection("devicePayload")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+
+//---------------------------------
+//----- deviceState ---------------
+//---------------------------------
+
+use deviceState
+db.createCollection("deviceState")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+sh.enableSharding("deviceState")
+sh.shardCollection("deviceState.deviceState", {"accountId": 1, "deviceId": 1})
+db.deviceState.ensureIndex(
+    {
+      "accountId": 1,
+      "deviceId": 1
+    },
+    {
+      "name": "accountId_1_deviceId_1"
+    }
+)
+db.deviceState.ensureIndex(
+    {
+      "deviceId": 1,
+	  "eventDate": -1
+    },
+    {
+      "name": "deviceId_1_eventDate_-1"
+    }
+)
+db.deviceState.ensureIndex(
+    {
+	  "accountId": 1,
+      "deviceId": 1,
+	  "endDate": -1
+    },
+    {
+      "name": "accountId_1_deviceId_1_endDate_-1"
+    }
+)
+
+//---------------------------------
+//----- deviceStateEvent ----------
+//---------------------------------
+
+use deviceStateEvent
+db.createCollection("deviceStateEvent")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+sh.enableSharding("deviceStateEvent")
+sh.shardCollection("deviceStateEvent.deviceStateEvent", {"accountId": 1, "deviceId": 1})
+db.deviceStateEvent.ensureIndex(
+    {
+      "accountId": 1,
+      "deviceId": 1
+    },
+    {
+      "name": "accountId_1_deviceId_1"
+    }
+)
+db.deviceStateEvent.ensureIndex(
+    {
+	  "accountId": 1,
+      "deviceId": 1,
+	  "endDate": -1
+    },
+    {
+      "name": "accountId_1_deviceId_1_endDate_-1"
+    }
+)
+
+//---------------------------------
+//----- tempMapReduce -------------
+//---------------------------------
+
+use tempMapReduce
+db.createCollection("tempMapReduce")
+db.createCollection("deviceStateMetric")
+db.createCollection("landmarkCluster")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+
+//---------------------------------
+//----- fuelCardTransaction -------
+//---------------------------------
+
+use fuelCardTransaction
+db.createCollection("fuelCardTransaction")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+sh.enableSharding("fuelCardTransaction")
+sh.shardCollection("fuelCardTransaction.fuelCardTransaction", {"accountId": 1, "deviceId": 1})
+db.fuelCardTransaction.ensureIndex(
+    {
+      "accountId": 1,
+      "deviceId": 1
+    },
+    {
+      "name": "accountId_1_deviceId_1"
+    }
+)
+db.fuelCardTransaction.ensureIndex(
+    {
+	  "accountId": 1,
+      "fuelCardId": 1
+    },
+    {
+      "name": "accountId_1_fuelCardId_1"
+    }
+)
+db.fuelCardTransaction.ensureIndex(
+    {
+	  "accountId": 1,
+      "deviceId": 1,
+	  "eventDate": -1
+    },
+    {
+      "name": "accountId_1_deviceId_1_eventDate_-1"
+    }
+)
+
+//---------------------------------
+//----- landmarkDetail ------------
+//---------------------------------
+
+use landmarkDetail
+db.createCollection("landmarkDetail")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+sh.enableSharding("landmarkDetail")
+sh.shardCollection("landmarkDetail.landmarkDetail", {"accountId": 1, "landmarkId": 1})
+db.landmarkDetail.ensureIndex(
+    {
+      "accountId": 1,
+      "landmarkId": 1
+    },
+    {
+      "name": "accountId_1_landmarkId_1"
+    }
+)
+db.landmarkDetail.ensureIndex(
+    {
+	  "accountId": 1,
+      "lat": 1,
+	  "lng": 1
+    },
+    {
+      "name": "accountId_1_lat_1_lng_1"
+    }
+)
+db.landmarkDetail.ensureIndex(
+    {
+	  "key": 1
+    },
+    {
+      "name": "key_1"
+    }
+)
+
+//---------------------------------
+//----- landmarkGroupDetail -------
+//---------------------------------
+
+use landmarkGroupDetail
+db.createCollection("landmarkGroupDetail")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+sh.enableSharding("landmarkGroupDetail")
+sh.shardCollection("landmarkGroupDetail.landmarkGroupDetail", {"accountId": 1, "landmarkGroupId": 1})
+db.landmarkGroupDetail.ensureIndex(
+    {
+      "accountId": 1,
+      "landmarkGroupId": 1
+    },
+    {
+      "name": "accountId_1_landmarkGroupId_1"
+    }
+)
+db.landmarkGroupDetail.ensureIndex(
+    {
+	  "accountId": 1,
+      "path": 1
+    },
+    {
+      "name": "accountId_1_path_1"
+    }
+)
+
+//---------------------------------
+//----- landmarkState -------------
+//---------------------------------
+
+use landmarkState
+db.createCollection("landmarkState")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+sh.enableSharding("landmarkState")
+sh.shardCollection("landmarkState.landmarkState", {"accountId": 1, "landmarkId": 1})
+db.landmarkState.ensureIndex(
+    {
+      "accountId": 1,
+      "landmarkId": 1
+    },
+    {
+      "name": "accountId_1_landmarkId_1"
+    }
+)
+db.landmarkState.ensureIndex(
+    {
+	  "accountId": 1,
+      "landmarkId": 1,
+	  "endDate": -1
+    },
+    {
+      "name": "accountId_1_landmarkId_1_endDate_-1"
+    }
+)
+
+//---------------------------------
+//----- maintenanceState ----------
+//---------------------------------
+
+use maintenanceState
+db.createCollection("maintenanceState")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+
+//---------------------------------
+//----- metricSummary -------------
+//---------------------------------
+
+use metricSummary
+db.createCollection("metricSummary")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+db.metricSummary.ensureIndex(
+    {
+	  "key": 1
+    },
+    {
+      "name": "key_1"
+    }
+)
+
+//---------------------------------
+//----- metricValue ---------------
+//---------------------------------
+
+use metricValue
+db.createCollection("metricValue")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+db.metricValue.ensureIndex(
+    {
+	  "accountId": 1,
+	  "key": 1
+    },
+    {
+      "name": "accountId_key_1",
+	  "background" : true
+    }
+)
+
+//---------------------------------
+//----- netSuiteAuditLog ----------
+//---------------------------------
+
+use netSuiteAuditLog
+db.createCollection("netSuiteAuditLog")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+db.netSuiteAuditLog.ensureIndex(
+    {
+	  "nsOrderId": 1
+    },
+    {
+      "name": "nsOrderId_1"
+    }
+)
+
+//---------------------------------
+//----- notes ---------------------
+//---------------------------------
+
+use notes
+db.createCollection("notes")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+
+//---------------------------------
+//----- nspireJobResult -----------
+//---------------------------------
+
+use nspireJobResult
+db.createCollection("nspireJobResult")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+
+//---------------------------------
+//----- reportResult -----------
+//---------------------------------
+
+use reportResult
+db.createCollection("reportResult")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+sh.enableSharding("reportResult")
+sh.shardCollection("reportResult.reportResult", {"accountId": 1, "reportTypeId": 1})
+db.reportResult.ensureIndex(
+    {
+      "accountId": 1,
+      "reportTypeId": 1
+    },
+    {
+      "name": "accountId_1_reportTypeId_1"
+    }
+)
+db.reportResult.ensureIndex(
+    {
+	  "accountId": 1,
+      "reportSpecId": 1
+    },
+    {
+      "name": "accountId_1_reportSpecId_1"
+    }
+)
+db.reportResult.ensureIndex(
+    {
+	  "accountId": 1,
+      "requestedByAccountUserId": 1
+    },
+    {
+      "name": "accountId_1_requestedByAccountUserId_1"
+    }
+)
+db.reportResult.ensureIndex(
+    {
+	  "accountId": 1,
+      "executionStart": -1
+    },
+    {
+      "name": "accountId_1_executionStart_-1"
+    }
+)
+
+//---------------------------------
+//----- reportMileage -------------
+//---------------------------------
+
+use reportResult
+db.createCollection("reportMileage")
+
+
+//---------------------------------
+//--- reportUtilizationSummary ----
+//---------------------------------
+
+use reportResult
+db.createCollection("reportUtilizationSummary")
+
+
+//---------------------------------
+//----- taskHistory ---------------
+//---------------------------------
+
+use taskHistory
+db.createCollection("taskHistory")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+sh.enableSharding("taskHistory")
+sh.shardCollection("taskHistory.taskHistory", {"accountId": 1, "reportTypeId": 1})
+db.taskHistory.ensureIndex(
+    {
+      "refType": 1,
+      "refId": 1
+    },
+    {
+      "name": "refType_1_refId_1"
+    }
+)
+db.taskHistory.ensureIndex(
+    {
+	  "refType": 1,
+      "refId": 1,
+	  "startDate": -1
+    },
+    {
+      "name": "refType_1_refId_1_startDate_-1"
+    }
+)
+
+//---------------------------------
+//----- utilizationReport ---------
+//---------------------------------
+
+use reportResult
+db.createCollection("utilizationReport")
+
+
+//---------------------------------
+//----- warehouseValue ------------
+//---------------------------------
+
+use warehouseValue
+db.createCollection("warehouseValue")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+sh.enableSharding("warehouseValue")
+sh.shardCollection("warehouseValue.warehouseValue", {"accountId": 1, "deviceId": 1})
+db.warehouseValue.ensureIndex(
+    {
+      "accountId": 1,
+      "deviceId": 1
+    },
+    {
+      "name": "accountId_1_deviceId_1"
+    }
+)
+db.warehouseValue.ensureIndex(
+    {
+	  "accountId": 1,
+      "deviceId": 1,
+	  "eventDate": -1
+    },
+    {
+      "name": "accountId_1_deviceId_1_eventDate_-1"
+    }
+)
+
+//---------------------------------
+//----- o2cActivationLog ----------
+//---------------------------------
+
+use order2cash
+db.createCollection("o2cActivationLog")
+db.addUser(
+    {
+      user: "procon",
+      pwd: "procon4admin",
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+
+db.o2cActivationLog.ensureIndex(
+    {
+      "accountUserId": 1
+    },
+    {
+      "name": "accountUserId_1"
+    }
+)
+db.o2cActivationLog.ensureIndex(
+    {
+	  "serialNumber": 1
+    },
+    {
+      "name": "serialNumber_1"
+    }
+)
+
+//---------------------------------
+//----- o2cDeviceTestLog ----------
+//---------------------------------
+
+use order2cash
+db.createCollection("o2cDeviceTestLog")
+
+
+
+
+
+
+
+
+
+
+
