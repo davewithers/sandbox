@@ -2,7 +2,7 @@
 //--------- accountDetail ---------
 //---------------------------------
 
-use accountDetail
+use account
 db.createCollection("accountDetail")
 db.addUser(
     {
@@ -46,7 +46,7 @@ db.addUser(
 //------- assetGroupDetail --------
 //---------------------------------
 
-use assetGroupDetail
+use assetGroup
 db.createCollection("assetGroupDetail")
 db.addUser(
     {
@@ -55,8 +55,8 @@ db.addUser(
       roles: ["readWrite", "dbAdmin"]
     }
 )
-sh.enableSharding("assetGroupDetail")
-sh.shardCollection("assetGroupDetail.assetGroupDetail", {"accountId": 1, "assetGroupId": 1})
+sh.enableSharding("assetGroup")
+sh.shardCollection("assetGroup.assetGroupDetail", {"accountId": 1, "assetGroupId": 1})
 db.assetGroupDetail.ensureIndex(
     {
       "accountId": 1,
@@ -128,7 +128,7 @@ db.deviceAlert.ensureIndex(
 //----- deviceCommandEvent --------
 //---------------------------------
 
-use deviceCommandEvent
+use deviceCommand
 db.createCollection("deviceCommandEvent")
 db.addUser(
     {
@@ -137,8 +137,8 @@ db.addUser(
       roles: ["readWrite", "dbAdmin"]
     }
 )
-sh.enableSharding("deviceCommandEvent")
-sh.shardCollection("deviceCommandEvent.deviceCommandEvent", {"accountId": 1, "deviceId": 1})
+sh.enableSharding("deviceCommand")
+sh.shardCollection("deviceCommand.deviceCommandEvent", {"accountId": 1, "deviceId": 1})
 db.deviceCommandEvent.ensureIndex(
     {
       "accountId": 1,
@@ -162,7 +162,7 @@ db.deviceCommandEvent.ensureIndex(
 //---- deviceCommandSpecEvent -----
 //---------------------------------
 
-use deviceCommandEvent
+use deviceCommand
 db.createCollection("deviceCommandSpecEvent")
 db.addUser(
     {
@@ -171,7 +171,7 @@ db.addUser(
       roles: ["readWrite", "dbAdmin"]
     }
 )
-sh.shardCollection("deviceCommandEvent.deviceCommandSpecEvent", {"accountId": 1, "deviceCommandSpecId": 1})
+sh.shardCollection("deviceCommand.deviceCommandSpecEvent", {"accountId": 1, "deviceCommandSpecId": 1})
 db.deviceCommandSpecEvent.ensureIndex(
     {
       "accountId": 1,
@@ -197,7 +197,7 @@ db.deviceCommandSpecEvent.ensureIndex(
 //--------- deviceDetail ----------
 //---------------------------------
 
-use deviceDetail
+use device
 db.createCollection("deviceDetail")
 db.addUser(
     {
@@ -206,8 +206,8 @@ db.addUser(
       roles: ["readWrite", "dbAdmin"]
     }
 )
-sh.enableSharding("deviceDetail")
-sh.shardCollection("deviceDetail.deviceDetail", {"accountId": 1, "deviceId": 1})
+sh.enableSharding("device")
+sh.shardCollection("device.deviceDetail", {"accountId": 1, "deviceId": 1})
 db.deviceDetail.ensureIndex(
     {
       "accountId": 1,
@@ -270,24 +270,24 @@ db.addUser(
 )
 
 //---------------------------------
-//----- deviceEvent_keys --------
+//----- deviceEvent_keys -------- I don't know why this exists - isn't in other environments
 //---------------------------------
 
-use deviceEvent
-db.createCollection("deviceEvent_keys")
-db.addUser(
-    {
-      user: "procon",
-      pwd: "procon4admin",
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
+//use deviceEvent
+//db.createCollection("deviceEvent_keys")
+//db.addUser(
+//    {
+//      user: "procon",
+//      pwd: "procon4admin",
+//      roles: ["readWrite", "dbAdmin"]
+//    }
+//)
 
 //---------------------------------
 //----- deviceGeofenceEvent -------
 //---------------------------------
 
-use deviceGeofenceEvent
+use geofenceEvent
 db.createCollection("deviceGeofenceEvent")
 db.addUser(
     {
@@ -296,8 +296,8 @@ db.addUser(
       roles: ["readWrite", "dbAdmin"]
     }
 )
-sh.enableSharding("deviceGeofenceEvent")
-sh.shardCollection("deviceGeofenceEvent.deviceGeofenceEvent", {"accountId": 1, "deviceId": 1})
+sh.enableSharding("geofenceEvent")
+sh.shardCollection("geofenceEvent.deviceGeofenceEvent", {"accountId": 1, "deviceId": 1})
 db.deviceGeofenceEvent.ensureIndex(
     {
       "accountId": 1,
@@ -367,7 +367,7 @@ db.deviceJobEvent.ensureIndex(
 //----- deviceLandmarkEvent -------
 //---------------------------------
 
-use deviceLandmarkEvent
+use landmarkEvent
 db.createCollection("deviceLandmarkEvent")
 db.addUser(
     {
@@ -376,8 +376,8 @@ db.addUser(
       roles: ["readWrite", "dbAdmin"]
     }
 )
-sh.enableSharding("deviceLandmarkEvent")
-sh.shardCollection("deviceLandmarkEvent.deviceLandmarkEvent", {"accountId": 1, "deviceId": 1})
+sh.enableSharding("landmarkEvent")
+sh.shardCollection("landmarkEvent.deviceLandmarkEvent", {"accountId": 1, "deviceId": 1})
 db.deviceLandmarkEvent.ensureIndex(
     {
       "accountId": 1,
@@ -600,7 +600,7 @@ db.fuelCardTransaction.ensureIndex(
 //----- landmarkDetail ------------
 //---------------------------------
 
-use landmarkDetail
+use landmark
 db.createCollection("landmarkDetail")
 db.addUser(
     {
@@ -609,8 +609,8 @@ db.addUser(
       roles: ["readWrite", "dbAdmin"]
     }
 )
-sh.enableSharding("landmarkDetail")
-sh.shardCollection("landmarkDetail.landmarkDetail", {"accountId": 1, "landmarkId": 1})
+sh.enableSharding("landmark")
+sh.shardCollection("landmark.landmarkDetail", {"accountId": 1, "landmarkId": 1})
 db.landmarkDetail.ensureIndex(
     {
       "accountId": 1,
@@ -643,7 +643,7 @@ db.landmarkDetail.ensureIndex(
 //----- landmarkGroupDetail -------
 //---------------------------------
 
-use landmarkGroupDetail
+use landmarkGroup
 db.createCollection("landmarkGroupDetail")
 db.addUser(
     {
@@ -652,8 +652,8 @@ db.addUser(
       roles: ["readWrite", "dbAdmin"]
     }
 )
-sh.enableSharding("landmarkGroupDetail")
-sh.shardCollection("landmarkGroupDetail.landmarkGroupDetail", {"accountId": 1, "landmarkGroupId": 1})
+sh.enableSharding("landmarkGroup")
+sh.shardCollection("landmarkGroup.landmarkGroupDetail", {"accountId": 1, "landmarkGroupId": 1})
 db.landmarkGroupDetail.ensureIndex(
     {
       "accountId": 1,
@@ -772,7 +772,7 @@ db.metricValue.ensureIndex(
 //----- netSuiteAuditLog ----------
 //---------------------------------
 
-use netSuiteAuditLog
+use netSuite
 db.createCollection("netSuiteAuditLog")
 db.addUser(
     {
