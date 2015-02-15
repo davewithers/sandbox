@@ -73,6 +73,30 @@ db.assetGroupDetail.ensureIndex(
 
 use deviceAlert
 db.createCollection("deviceAlert")
+sh.enableSharding("deviceAlert")
+
+//-- shard+partition empty collection (deviceAlert)
+db.adminCommand({shardCollection:"deviceAlert.deviceAlert",
+				 key: 			 {"accountId": 1, "deviceId": 1},
+				 partitionKey:	 {dayStamp:1},
+				 clustering:	 false})
+				 
+//-- disable Balancer prior to pre-splitting and manual chunk migrations
+sh.disableBalancing("deviceAlert.deviceAlert")
+
+//-- presplit chunks
+for (var i =0; i <=106000; ++i) {
+		sh.splitAt("deviceAlert.deviceAlert",{"accountId": i, "deviceId": 1})
+	}
+
+//-- move chunks
+for (var i =0; i <=106000; ++i) {
+		if (i%6 !=0) {
+		sh.moveChunk("deviceAlert.deviceAlert",{"accountId": i, "deviceId": 1},
+					 "shard000" + (i%6))
+	})
+}
+
 db.addUser(
     {
       user: "procon",
@@ -80,8 +104,7 @@ db.addUser(
       roles: ["readWrite", "dbAdmin"]
     }
 )
-sh.enableSharding("deviceAlert")
-sh.shardCollection("deviceAlert.deviceAlert", {"accountId": 1, "deviceId": 1})
+
 db.deviceAlert.ensureIndex(
     {
       "accountId": 1,
@@ -463,6 +486,30 @@ db.addUser(
 
 use deviceState
 db.createCollection("deviceState")
+sh.enableSharding("deviceState")
+
+//-- shard+partition on empty collection (deviceState)
+db.adminCommand({shardCollection:"deviceState.deviceState",
+				 key: 		 {"accountId": 1, "deviceId": 1},
+				 partitionKey:	 {dayStamp:1},
+				 clustering:	 false})
+				 
+//-- disable Balancer prior to pre-splitting and manual chunk migrations
+sh.disableBalancing("deviceState.deviceState")
+
+//-- presplit chunks
+for (var i =0; i <=106000; ++i) {
+		sh.splitAt("deviceState.deviceState",{"accountId": i, "deviceId": 1})
+	}
+
+//-- move chunks
+for (var i =0; i <=106000; ++i) {
+		if (i%6 !=0) {
+		sh.moveChunk("deviceState.deviceState",{"accountId": i, "deviceId": 1},
+					 "shard000" + (i%6))
+	})
+}
+
 db.addUser(
     {
       user: "procon",
@@ -470,8 +517,7 @@ db.addUser(
       roles: ["readWrite", "dbAdmin"]
     }
 )
-sh.enableSharding("deviceState")
-sh.shardCollection("deviceState.deviceState", {"accountId": 1, "deviceId": 1})
+
 db.deviceState.ensureIndex(
     {
       "accountId": 1,
@@ -507,6 +553,30 @@ db.deviceState.ensureIndex(
 
 use deviceStateEvent
 db.createCollection("deviceStateEvent")
+sh.enableSharding("deviceStateEvent")
+
+//-- shard+partition empty collection (deviceStateEvent)
+db.adminCommand({shardCollection:"deviceStateEvent.deviceStateEvent",
+				 key: 			 {"accountId": 1, "deviceId": 1},
+				 partitionKey:	 {dayStamp:1},
+				 clustering:	 false})
+				 
+//-- disable Balancer prior to pre-splitting and manual chunk migrations
+sh.disableBalancing("deviceStateEvent.deviceStateEvent")
+
+//-- presplit chunks
+for (var i =0; i <=106000; ++i) {
+		sh.splitAt("deviceStateEvent.deviceStateEvent",{"accountId": i, "deviceId": 1})
+	}
+
+//-- move chunks
+for (var i =0; i <=106000; ++i) {
+		if (i%6 !=0) {
+		sh.moveChunk("deviceStateEvent.deviceStateEvent",{"accountId": i, "deviceId": 1},
+					 "shard000" + (i%6))
+	})
+}
+
 db.addUser(
     {
       user: "procon",
@@ -514,8 +584,7 @@ db.addUser(
       roles: ["readWrite", "dbAdmin"]
     }
 )
-sh.enableSharding("deviceStateEvent")
-sh.shardCollection("deviceStateEvent.deviceStateEvent", {"accountId": 1, "deviceId": 1})
+
 db.deviceStateEvent.ensureIndex(
     {
       "accountId": 1,
@@ -892,6 +961,30 @@ db.createCollection("reportUtilizationSummary")
 
 use taskHistory
 db.createCollection("taskHistory")
+sh.enableSharding("taskHistory")
+
+//-- shard+partition empty collection (taskHistory)
+db.adminCommand({shardCollection:"taskHistory.taskHistory",
+				 key: 		 {"accountId": 1, "reportTypeId": 1},
+				 partitionKey:	 {startDate:1},
+				 clustering:	 false})
+				 
+//-- disable Balancer prior to pre-splitting and manual chunk migrations
+sh.disableBalancing("taskHistory.taskHistory")
+
+//-- presplit chunks
+for (var i =0; i <=106000; ++i) {
+		sh.splitAt("taskHistory.taskHistory",{"accountId": i, "reportTypeId": 1})
+	}
+
+//-- move chunks
+for (var i =0; i <=106000; ++i) {
+		if (i%6 !=0) {
+		sh.moveChunk("taskHistory.taskHistory",{"accountId": i, "reportTypeId": 1},
+					 "shard000" + (i%6))
+	})
+}
+
 db.addUser(
     {
       user: "procon",
@@ -899,8 +992,7 @@ db.addUser(
       roles: ["readWrite", "dbAdmin"]
     }
 )
-sh.enableSharding("taskHistory")
-sh.shardCollection("taskHistory.taskHistory", {"accountId": 1, "reportTypeId": 1})
+
 db.taskHistory.ensureIndex(
     {
       "refType": 1,
