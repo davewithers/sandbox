@@ -598,7 +598,7 @@ db.fuelCardTransaction.ensureIndex(
 //----- landmarkDetail ------------
 //---------------------------------
 
-use landmarkDetail
+use landmark
 db.createCollection("landmarkDetail")
 db.addUser(
     {
@@ -607,7 +607,7 @@ db.addUser(
       roles: ["readWrite", "dbAdmin"]
     }
 )
-sh.enableSharding("landmarkDetail")
+sh.enableSharding("landmark")
 sh.shardCollection("landmark.landmarkDetail", {"accountId": 1, "landmarkId": 1})
 db.landmarkDetail.ensureIndex(
     {
