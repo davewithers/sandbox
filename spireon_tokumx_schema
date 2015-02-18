@@ -373,7 +373,7 @@ db.deviceJobEvent.ensureIndex(
 //----- deviceLandmarkEvent -------
 //---------------------------------
 
-use landmarkEvent
+use deviceLandmarkEvent
 db.createCollection("deviceLandmarkEvent")
 db.addUser(
     {
@@ -382,8 +382,8 @@ db.addUser(
       roles: ["readWrite", "dbAdmin"]
     }
 )
-sh.enableSharding("landmarkEvent")
-sh.shardCollection("landmarkEvent.deviceLandmarkEvent", {"accountId": 1, "deviceId": 1})
+sh.enableSharding("deviceLandmarkEvent")
+sh.shardCollection("devicelandmarkEvent.deviceLandmarkEvent", {"accountId": 1, "deviceId": 1})
 db.deviceLandmarkEvent.ensureIndex(
     {
       "accountId": 1,
