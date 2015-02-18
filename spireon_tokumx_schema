@@ -317,7 +317,6 @@ db.deviceGeofenceEvent.ensureIndex(
     }
 )
 
-
 //---------------------------------
 //----- deviceJobEvent -------
 //---------------------------------
