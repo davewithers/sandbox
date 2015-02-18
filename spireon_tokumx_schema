@@ -254,8 +254,8 @@ db.deviceDetail.ensureIndex(
       "accountId": 1,
       "landmarkId": 1
     },
-    { 
-	  "name": "accountId_1_landmarkId_1"
+    {
+      "name": "accountId_1_landmarkId_1"
     }
 )
 
