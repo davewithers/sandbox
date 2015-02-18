@@ -75,24 +75,8 @@ use deviceAlert
 db.createCollection("deviceAlert")
 sh.enableSharding("deviceAlert")
 
-//-- shard+partition empty collection (deviceAlert)
-db.adminCommand({shardCollection:"deviceAlert.deviceAlert",key:{"accountId": 1, "deviceId": 1},partitionKey:{dayStamp:1,_id:1},clustering:false})
-		 
-//-- disable Balancer prior to pre-splitting and manual chunk migrations
-sh.disableBalancing("deviceAlert.deviceAlert")
-
-//-- presplit chunks
-for (var i =0; i <=106000; ++i) {
-		sh.splitAt("deviceAlert.deviceAlert",{"accountId": i, "deviceId": 1})
-	}
-
-//-- move chunks
-for (var i =0; i <=106000; ++i) {
-		if (i%6 !=0) {
-		sh.moveChunk("deviceAlert.deviceAlert",{"accountId": i, "deviceId": 1},
-					 "shard000" + (i%6))
-	})
-}
+//-- shard empty collection (deviceAlert)
+sh.shardCollection("deviceAlert.deviceAlert", {"accountId": 1, "deviceId": 1})
 
 db.addUser(
     {
@@ -217,7 +201,7 @@ db.deviceCommandSpecEvent.ensureIndex(
 //--------- deviceDetail ----------
 //---------------------------------
 
-use deviceDetail
+use device
 db.createCollection("deviceDetail")
 db.addUser(
     {
@@ -373,7 +357,7 @@ db.deviceJobEvent.ensureIndex(
 //----- deviceLandmarkEvent -------
 //---------------------------------
 
-use deviceLandmarkEvent
+use landmarkEvent
 db.createCollection("deviceLandmarkEvent")
 db.addUser(
     {
@@ -382,8 +366,8 @@ db.addUser(
       roles: ["readWrite", "dbAdmin"]
     }
 )
-sh.enableSharding("deviceLandmarkEvent")
-sh.shardCollection("devicelandmarkEvent.deviceLandmarkEvent", {"accountId": 1, "deviceId": 1})
+sh.enableSharding("landmarkEvent")
+sh.shardCollection("landmarkEvent.deviceLandmarkEvent", {"accountId": 1, "deviceId": 1})
 db.deviceLandmarkEvent.ensureIndex(
     {
       "accountId": 1,
@@ -471,24 +455,8 @@ use deviceState
 db.createCollection("deviceState")
 sh.enableSharding("deviceState")
 
-//-- shard+partition on empty collection (deviceState)
-db.adminCommand({shardCollection:"deviceState.deviceState",key:{"accountId": 1, "deviceId": 1},partitionKey:{dayStamp:1,_id:1},clustering:false})
-			 
-//-- disable Balancer prior to pre-splitting and manual chunk migrations
-sh.disableBalancing("deviceState.deviceState")
-
-//-- presplit chunks
-for (var i =0; i <=106000; ++i) {
-		sh.splitAt("deviceState.deviceState",{"accountId": i, "deviceId": 1})
-	}
-
-//-- move chunks
-for (var i =0; i <=106000; ++i) {
-		if (i%6 !=0) {
-		sh.moveChunk("deviceState.deviceState",{"accountId": i, "deviceId": 1},
-					 "shard000" + (i%6))
-	})
-}
+//-- shard on empty collection (deviceState)
+sh.shardCollection("deviceState.deviceState", {"accountId": 1, "deviceId": 1})
 
 db.addUser(
     {
@@ -535,24 +503,8 @@ use deviceStateEvent
 db.createCollection("deviceStateEvent")
 sh.enableSharding("deviceStateEvent")
 
-//-- shard+partition empty collection (deviceStateEvent)
-db.adminCommand({shardCollection:"deviceStateEvent.deviceStateEvent",key:{"accountId": 1, "deviceId": 1},partitionKey:{dayStamp:1,_id:1},clustering:false})
-				 
-//-- disable Balancer prior to pre-splitting and manual chunk migrations
-sh.disableBalancing("deviceStateEvent.deviceStateEvent")
-
-//-- presplit chunks
-for (var i =0; i <=106000; ++i) {
-		sh.splitAt("deviceStateEvent.deviceStateEvent",{"accountId": i, "deviceId": 1})
-	}
-
-//-- move chunks
-for (var i =0; i <=106000; ++i) {
-		if (i%6 !=0) {
-		sh.moveChunk("deviceStateEvent.deviceStateEvent",{"accountId": i, "deviceId": 1},
-					 "shard000" + (i%6))
-	})
-}
+//-- shard empty collection (deviceStateEvent)
+sh.shardCollection("deviceStateEvent.deviceStateEvent", {"accountId": 1, "deviceId": 1})
 
 db.addUser(
     {
@@ -613,6 +565,7 @@ db.addUser(
 )
 sh.enableSharding("fuelCardTransaction")
 sh.shardCollection("fuelCardTransaction.fuelCardTransaction", {"accountId": 1, "deviceId": 1})
+
 db.fuelCardTransaction.ensureIndex(
     {
       "accountId": 1,
@@ -646,7 +599,7 @@ db.fuelCardTransaction.ensureIndex(
 //----- landmarkDetail ------------
 //---------------------------------
 
-use landmark
+use landmarkDetail
 db.createCollection("landmarkDetail")
 db.addUser(
     {
@@ -655,7 +608,7 @@ db.addUser(
       roles: ["readWrite", "dbAdmin"]
     }
 )
-sh.enableSharding("landmark")
+sh.enableSharding("landmarkDetail")
 sh.shardCollection("landmark.landmarkDetail", {"accountId": 1, "landmarkId": 1})
 db.landmarkDetail.ensureIndex(
     {
@@ -940,24 +893,8 @@ use taskHistory
 db.createCollection("taskHistory")
 sh.enableSharding("taskHistory")
 
-//-- shard+partition empty collection (taskHistory)
-db.adminCommand({shardCollection:"taskHistory.taskHistory",key:{"accountId": 1, "reportTypeId": 1},partitionKey:{startDate:1},clustering:false})
-				 
-//-- disable Balancer prior to pre-splitting and manual chunk migrations
-sh.disableBalancing("taskHistory.taskHistory")
-
-//-- presplit chunks
-for (var i =0; i <=106000; ++i) {
-		sh.splitAt("taskHistory.taskHistory",{"accountId": i, "reportTypeId": 1})
-	}
-
-//-- move chunks
-for (var i =0; i <=106000; ++i) {
-		if (i%6 !=0) {
-		sh.moveChunk("taskHistory.taskHistory",{"accountId": i, "reportTypeId": 1},
-					 "shard000" + (i%6))
-	})
-}
+//-- shard empty collection (taskHistory)
+sh.shardCollection("taskHistory.taskHistory", {"refType": 1, "refId": 1})
 
 db.addUser(
     {
