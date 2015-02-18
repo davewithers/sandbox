@@ -7,8 +7,8 @@ db.createCollection("accountDetail")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
-      roles: ["readWrite", "dbAdmin"]
+      roles: ["readWrite", "dbAdmin"],
+	  userSource: "proconCore" 
     }
 )
 db.accountDetail.ensureIndex(
@@ -37,7 +37,7 @@ db.createCollection("assetCluster")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -51,7 +51,7 @@ db.createCollection("assetGroupDetail")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -76,11 +76,8 @@ db.createCollection("deviceAlert")
 sh.enableSharding("deviceAlert")
 
 //-- shard+partition empty collection (deviceAlert)
-db.adminCommand({shardCollection:"deviceAlert.deviceAlert",
-				 key: 			 {"accountId": 1, "deviceId": 1},
-				 partitionKey:	 {dayStamp:1},
-				 clustering:	 false})
-				 
+db.adminCommand({shardCollection:"deviceAlert.deviceAlert",key:{"accountId": 1, "deviceId": 1},partitionKey:{dayStamp:1,_id:1},clustering:false})
+		 
 //-- disable Balancer prior to pre-splitting and manual chunk migrations
 sh.disableBalancing("deviceAlert.deviceAlert")
 
@@ -100,7 +97,7 @@ for (var i =0; i <=106000; ++i) {
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -156,7 +153,7 @@ db.createCollection("deviceCommandEvent")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -190,7 +187,7 @@ db.createCollection("deviceCommandSpecEvent")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -220,12 +217,12 @@ db.deviceCommandSpecEvent.ensureIndex(
 //--------- deviceDetail ----------
 //---------------------------------
 
-use device
+use deviceDetail
 db.createCollection("deviceDetail")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -273,8 +270,8 @@ db.deviceDetail.ensureIndex(
       "accountId": 1,
       "landmarkId": 1
     },
-    {
-      "name": "accountId_1_landmarkId_1"
+    { 
+	  "name": "accountId_1_landmarkId_1"
     }
 )
 
@@ -287,24 +284,10 @@ db.createCollection("deviceEvent")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
-
-//---------------------------------
-//----- deviceEvent_keys -------- I don't know why this exists - isn't in other environments
-//---------------------------------
-
-//use deviceEvent
-//db.createCollection("deviceEvent_keys")
-//db.addUser(
-//    {
-//      user: "procon",
-//      pwd: "procon4admin",
-//      roles: ["readWrite", "dbAdmin"]
-//    }
-//)
 
 //---------------------------------
 //----- deviceGeofenceEvent -------
@@ -315,7 +298,7 @@ db.createCollection("deviceGeofenceEvent")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -360,7 +343,7 @@ db.createCollection("deviceJobEvent")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -395,7 +378,7 @@ db.createCollection("deviceLandmarkEvent")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -440,7 +423,7 @@ db.createCollection("deviceMessageEvent")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -475,7 +458,7 @@ db.createCollection("devicePayload")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -489,11 +472,8 @@ db.createCollection("deviceState")
 sh.enableSharding("deviceState")
 
 //-- shard+partition on empty collection (deviceState)
-db.adminCommand({shardCollection:"deviceState.deviceState",
-				 key: 		 {"accountId": 1, "deviceId": 1},
-				 partitionKey:	 {dayStamp:1},
-				 clustering:	 false})
-				 
+db.adminCommand({shardCollection:"deviceState.deviceState",key:{"accountId": 1, "deviceId": 1},partitionKey:{dayStamp:1,_id:1},clustering:false})
+			 
 //-- disable Balancer prior to pre-splitting and manual chunk migrations
 sh.disableBalancing("deviceState.deviceState")
 
@@ -513,7 +493,7 @@ for (var i =0; i <=106000; ++i) {
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -556,10 +536,7 @@ db.createCollection("deviceStateEvent")
 sh.enableSharding("deviceStateEvent")
 
 //-- shard+partition empty collection (deviceStateEvent)
-db.adminCommand({shardCollection:"deviceStateEvent.deviceStateEvent",
-				 key: 			 {"accountId": 1, "deviceId": 1},
-				 partitionKey:	 {dayStamp:1},
-				 clustering:	 false})
+db.adminCommand({shardCollection:"deviceStateEvent.deviceStateEvent",key:{"accountId": 1, "deviceId": 1},partitionKey:{dayStamp:1,_id:1},clustering:false})
 				 
 //-- disable Balancer prior to pre-splitting and manual chunk migrations
 sh.disableBalancing("deviceStateEvent.deviceStateEvent")
@@ -580,7 +557,7 @@ for (var i =0; i <=106000; ++i) {
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -616,7 +593,7 @@ db.createCollection("landmarkCluster")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -630,7 +607,7 @@ db.createCollection("fuelCardTransaction")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -674,7 +651,7 @@ db.createCollection("landmarkDetail")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -717,7 +694,7 @@ db.createCollection("landmarkGroupDetail")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -751,7 +728,7 @@ db.createCollection("landmarkState")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -786,7 +763,7 @@ db.createCollection("maintenanceState")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -800,7 +777,7 @@ db.createCollection("metricSummary")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -822,7 +799,7 @@ db.createCollection("metricValue")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -846,7 +823,7 @@ db.createCollection("netSuiteAuditLog")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -868,7 +845,7 @@ db.createCollection("notes")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -882,7 +859,7 @@ db.createCollection("nspireJobResult")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -896,7 +873,7 @@ db.createCollection("reportResult")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -964,10 +941,7 @@ db.createCollection("taskHistory")
 sh.enableSharding("taskHistory")
 
 //-- shard+partition empty collection (taskHistory)
-db.adminCommand({shardCollection:"taskHistory.taskHistory",
-				 key: 		 {"accountId": 1, "reportTypeId": 1},
-				 partitionKey:	 {startDate:1},
-				 clustering:	 false})
+db.adminCommand({shardCollection:"taskHistory.taskHistory",key:{"accountId": 1, "reportTypeId": 1},partitionKey:{startDate:1},clustering:false})
 				 
 //-- disable Balancer prior to pre-splitting and manual chunk migrations
 sh.disableBalancing("taskHistory.taskHistory")
@@ -988,7 +962,7 @@ for (var i =0; i <=106000; ++i) {
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -1030,7 +1004,7 @@ db.createCollection("warehouseValue")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -1065,7 +1039,7 @@ db.createCollection("o2cActivationLog")
 db.addUser(
     {
       user: "procon",
-      pwd: "procon4admin",
+      userSource: "proconCore",
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -1093,26 +1067,3 @@ db.o2cActivationLog.ensureIndex(
 
 use order2cash
 db.createCollection("o2cDeviceTestLog")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
