@@ -8,7 +8,7 @@ db.addUser(
     {
       user: "procon",
       roles: ["readWrite", "dbAdmin"],
-	  userSource: "proconCore" 
+	  pwd: "procon4admin" ,
     }
 )
 db.accountDetail.ensureIndex(
@@ -37,7 +37,7 @@ db.createCollection("assetCluster")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -51,7 +51,7 @@ db.createCollection("assetGroupDetail")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -81,7 +81,7 @@ sh.shardCollection("deviceAlert.deviceAlert", {"accountId": 1, "deviceId": 1})
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -137,7 +137,7 @@ db.createCollection("deviceCommandEvent")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -171,7 +171,7 @@ db.createCollection("deviceCommandSpecEvent")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -206,7 +206,7 @@ db.createCollection("deviceDetail")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -268,7 +268,7 @@ db.createCollection("deviceEvent")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -282,7 +282,7 @@ db.createCollection("deviceGeofenceEvent")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -326,7 +326,7 @@ db.createCollection("deviceJobEvent")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -361,7 +361,7 @@ db.createCollection("deviceLandmarkEvent")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -406,7 +406,7 @@ db.createCollection("deviceMessageEvent")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -441,7 +441,7 @@ db.createCollection("devicePayload")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -460,7 +460,7 @@ sh.shardCollection("deviceState.deviceState", {"accountId": 1, "deviceId": 1})
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -508,7 +508,7 @@ sh.shardCollection("deviceStateEvent.deviceStateEvent", {"accountId": 1, "device
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -544,7 +544,7 @@ db.createCollection("landmarkCluster")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -558,7 +558,7 @@ db.createCollection("fuelCardTransaction")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -603,7 +603,7 @@ db.createCollection("landmarkDetail")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -646,7 +646,7 @@ db.createCollection("landmarkGroupDetail")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -680,7 +680,7 @@ db.createCollection("landmarkState")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -715,7 +715,7 @@ db.createCollection("maintenanceState")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -729,7 +729,7 @@ db.createCollection("metricSummary")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -751,7 +751,7 @@ db.createCollection("metricValue")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -775,7 +775,7 @@ db.createCollection("netSuiteAuditLog")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -797,7 +797,7 @@ db.createCollection("notes")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -811,7 +811,7 @@ db.createCollection("nspireJobResult")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -825,7 +825,7 @@ db.createCollection("reportResult")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -898,7 +898,7 @@ sh.shardCollection("taskHistory.taskHistory", {"refType": 1, "refId": 1})
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -940,7 +940,7 @@ db.createCollection("warehouseValue")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+	  pwd: "procon4admin" ,
       roles: ["readWrite", "dbAdmin"]
     }
 )
@@ -975,7 +975,7 @@ db.createCollection("o2cActivationLog")
 db.addUser(
     {
       user: "procon",
-      userSource: "proconCore",
+      pwd: "procon4admin",
       roles: ["readWrite", "dbAdmin"]
     }
 )
