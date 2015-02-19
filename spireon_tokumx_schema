@@ -587,10 +587,10 @@ db.fuelCardTransaction.ensureIndex(
     {
 	  "accountId": 1,
       "deviceId": 1,
-	  "eventDate": -1
+	  "transactionDate": -1
     },
     {
-      "name": "accountId_1_deviceId_1_eventDate_-1"
+      "name": "accountId_1_deviceId_1_transactionDate_-1"
     }
 )
 
