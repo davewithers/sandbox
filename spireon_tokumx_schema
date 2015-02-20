@@ -563,15 +563,15 @@ db.addUser(
     }
 )
 sh.enableSharding("fuelCardTransaction")
-sh.shardCollection("fuelCardTransaction.fuelCardTransaction", {"accountId": 1, "deviceId": 1})
+sh.shardCollection("fuelCardTransaction.fuelCardTransaction", {"accountId": 1, "assetId": 1})
 
 db.fuelCardTransaction.ensureIndex(
     {
       "accountId": 1,
-      "deviceId": 1
+      "assetId": 1
     },
     {
-      "name": "accountId_1_deviceId_1"
+      "name": "accountId_1_assetId_1"
     }
 )
 db.fuelCardTransaction.ensureIndex(
@@ -586,13 +586,13 @@ db.fuelCardTransaction.ensureIndex(
 db.fuelCardTransaction.ensureIndex(
     {
 	  "accountId": 1,
-      "deviceId": 1,
+      "assetId": 1,
 	  "transactionDate": -1
     },
     {
       "name": "accountId_1_deviceId_1_transactionDate_-1"
-    }
-)
+    },
+    {background: true})
 
 //---------------------------------
 //----- landmarkDetail ------------
