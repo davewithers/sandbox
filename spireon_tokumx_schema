@@ -553,7 +553,7 @@ db.addUser(
 //----- fuelCardTransaction -------
 //---------------------------------
 
-use fuelCardTransaction
+use fuelCard
 db.createCollection("fuelCardTransaction")
 db.addUser(
     {
