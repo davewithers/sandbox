@@ -447,7 +447,7 @@ db.createCollection("landmarkCluster")
 //----- fuelCardTransaction -------
 //---------------------------------
 
-use fuelCardTransaction
+use fuelCard
 db.createCollection("fuelCardTransaction")
 
 sh.enableSharding("fuelCardTransaction")
