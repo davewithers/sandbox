@@ -1,0 +1,283 @@
+-- step 1: run on QA-DB1A.autodispatch_reports
+USE [AUTODISPATCH_reports]
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[weekly_CACreport1]') AND type in (N'U'))
+DROP TABLE [dbo].[weekly_CACreport1]
+GO
+DECLARE @target_date datetime
+SELECT @target_date = '2015-02-26 00:00:00.000'
+print @target_date
+
+CREATE TABLE #CAC_report(
+CONTRACTID varchar(50),
+ESN nvarchar(50),
+IMEI nvarchar(50),
+ACTIVATION_DATE datetime,
+DEVICE_AGE int,
+[STATUS] varchar(50),
+LAST_WARNING_COMMAND varchar(25),
+LAST_WARNING_COMMAND_DATE datetime,
+LAST_WARNING_STATUS_POSTED_TO_CAC varchar(10),
+LAST_STARTER_COMMAND varchar(25),
+LAST_STARTER_COMMAND_DATE datetime,
+LAST_STARTER_STATUS_POSTED_TO_CAC varchar(10),
+LAST_LOCATE_COMMAND varchar(25),
+LAST_LOCATE_COMMAND_DATE datetime,
+LAST_LOCATE_STATUS_POSTED_TO_CAC varchar(10),
+LAST_SUCCESSFUL_CONTACT_DATE datetime,
+LAST_ALERT varchar(25),
+LAST_ALERT_DATE datetime,
+NUMBER_POWER_UPS_LAST_30_Days int,
+NUMBER_LOW_VOLTAGE_ALERTS_LAST_30_DAYS int,
+NUMBER_DAYS_LAST_SUCCESSFUL_CONTACT int,
+DEACTIVATION_DATE datetime,
+CARRIER nvarchar(50))
+
+INSERT INTO #CAC_report(CONTRACTID,ESN,IMEI,[STATUS],ACTIVATION_DATE,DEVICE_AGE)
+SELECT CAC.LOANID,CAC.Serial,CAC.IMEI, 
+CASE WHEN  CAC.COMPANY_ID_FK = 4237 then 'DEACTIVATED' 
+WHEN CAC.HOLDER_ID_FK = -1 then 'INVENTORY' else 'ACTIVE' 
+END,CAC.CreationDate,
+DATEDIFF(D,CAC.CreationDate,@target_date)
+FROM CAC_bw_aware_device CAC
+WHERE CAC.CreationDate <= @target_date
+ORDER BY LOANID,Serial;
+
+SELECT d.serial, MAX(GMT_Create) AS DeactivateDate
+INTO #deactivates
+FROM   CAC_BW_Aware_Device d WITH(NOLOCK)
+JOIN   CAC_BW_SMS_History_deactivates s WITH(NOLOCK)
+ON     d.ID = s.Device_ID_FK
+JOIN   #CAC_report r WITH(NOLOCK) on d.serial = r.esn
+WHERE s.GMT_Create <= @target_date
+group by d.serial
+
+update #CAC_report
+set deactivation_date = d.DeactivateDate
+from #CAC_report r
+join #deactivates d on r.esn = d.serial
+
+update #CAC_report
+set carrier = c.Name
+from #CAC_report r
+join AUTODISPATCH_Atlas a on a.Serial = r.ESN
+join AUTODISPATCH_MINs m on a.[MIN] = m.[MIN]
+join AUTODISPATCH_carriers c on m.SIDH = c.SIDH
+
+--select count(*) from #CAC_report;
+
+CREATE CLUSTERED INDEX idx_ESN ON #CAC_report(ESN);
+
+--DECLARE @target_date datetime
+--SELECT @target_date = '2014-08-25 00:00:00.000'
+
+/* warning latest */
+select y.Serial,max(y.queueid) as max_queueid
+INTO #temptestW
+from yQueueLatest y(NOLOCK)  
+JOIN #CAC_report c(nolock) ON y.Serial = c.ESN
+WHERE y.StampIn < @target_date  and y.Command like 'WARNING_%'
+group by y.Serial 
+
+
+UPDATE #CAC_report
+SET 
+LAST_WARNING_COMMAND = y.command, 
+LAST_WARNING_COMMAND_DATE = y.Stampin, 
+LAST_WARNING_STATUS_POSTED_TO_CAC = CASE y.STATE WHEN 500 THEN 'SUCCESS' ELSE 'FAIL' END
+from yQueueLatest y(nolock)
+JOIN #temptestW ttW(nolock) ON y.queueid = ttW.max_queueid
+JOIN #CAC_report c(nolock) ON c.ESN = ttW.Serial;
+
+/* warning old */
+select y.Serial,max(y.queueid) as max_queueid
+INTO #tempoldW
+from yqueue_pre12092013 y(NOLOCK)  
+JOIN #CAC_report c(nolock) ON y.Serial = c.ESN
+WHERE y.StampIn < @target_date  and y.Command like 'WARNING_%'
+group by y.Serial 
+
+UPDATE #CAC_report
+SET 
+LAST_WARNING_COMMAND = y.command, 
+LAST_WARNING_COMMAND_DATE = y.Stampin, 
+LAST_WARNING_STATUS_POSTED_TO_CAC = CASE y.STATE WHEN 500 THEN 'SUCCESS' ELSE 'FAIL' END
+from yqueue_pre12092013 y
+JOIN #tempoldW toW ON y.queueid = toW.max_queueid
+JOIN #CAC_report c ON c.ESN = toW.Serial
+WHERE (c.LAST_WARNING_COMMAND is null and c.LAST_WARNING_COMMAND_DATE is null
+and c.LAST_WARNING_STATUS_POSTED_TO_CAC is null);
+
+/* locate latest */
+
+select y.Serial,max(y.queueid) as max_queueid
+INTO #temptestL
+from yQueueLatest y(NOLOCK)  
+JOIN #CAC_report c(nolock) ON y.Serial = c.ESN
+WHERE y.StampIn < @target_date  and y.Command like 'Locate_%'
+group by y.Serial 
+
+
+UPDATE #CAC_report
+SET 
+LAST_LOCATE_COMMAND = y.command, 
+LAST_LOCATE_COMMAND_DATE = y.Stampin, 
+LAST_LOCATE_STATUS_POSTED_TO_CAC = CASE y.STATE WHEN 500 THEN 'SUCCESS' ELSE 'FAIL' END
+from yQueueLatest y(nolock)
+JOIN #temptestL ttL(nolock) ON y.queueid = ttL.max_queueid
+JOIN #CAC_report c(nolock) ON c.ESN = ttL.Serial;
+
+/* locate old */
+--DECLARE @target_date datetime
+--SELECT @target_date = '2014-08-25 00:00:00.000'
+
+select y.Serial,max(y.queueid) as max_queueid
+INTO #tempoldL
+from yqueue_pre12092013 y(NOLOCK)  
+JOIN #CAC_report c(nolock) ON y.Serial = c.ESN
+WHERE y.StampIn < @target_date  and y.Command like 'Locate_%'
+group by y.Serial 
+
+UPDATE #CAC_report
+SET 
+LAST_LOCATE_COMMAND = y.command, 
+LAST_LOCATE_COMMAND_DATE = y.Stampin, 
+LAST_LOCATE_STATUS_POSTED_TO_CAC = CASE y.STATE WHEN 500 THEN 'SUCCESS' ELSE 'FAIL' END
+from yqueue_pre12092013 y
+JOIN #tempoldL toL ON y.queueid = toL.max_queueid
+JOIN #CAC_report c ON c.ESN = toL.Serial
+WHERE (c.LAST_LOCATE_COMMAND is null and c.LAST_LOCATE_COMMAND_DATE is null
+and c.LAST_LOCATE_STATUS_POSTED_TO_CAC is null); 
+
+
+--DECLARE @target_date datetime
+--SELECT @target_date = '2014-08-25 00:00:00.000'
+
+/* starter latest */
+select y.Serial,max(y.queueid) as max_queueid
+INTO #temptestS
+from yQueueLatest y(NOLOCK)  
+JOIN #CAC_report c(nolock) ON y.Serial = c.ESN
+WHERE y.StampIn < @target_date  and y.Command like 'Starter_%'
+group by y.Serial 
+
+UPDATE #CAC_report
+SET 
+LAST_STARTER_COMMAND = y.command, 
+LAST_STARTER_COMMAND_DATE = y.Stampin, 
+LAST_STARTER_STATUS_POSTED_TO_CAC = CASE y.STATE WHEN 500 THEN 'SUCCESS' ELSE 'FAIL' END
+from yQueueLatest y(nolock)
+JOIN #temptestS ttS(nolock) ON y.queueid = ttS.max_queueid
+JOIN #CAC_report c(nolock) ON c.ESN = ttS.Serial;
+
+/* starter old */
+
+--DECLARE @target_date datetime
+--SELECT @target_date = '2014-08-25 00:00:00.000'
+
+select y.Serial,max(y.queueid) as max_queueid
+INTO #tempoldS
+from yqueue_pre12092013 y(NOLOCK)  
+JOIN #CAC_report c(nolock) ON y.Serial = c.ESN
+WHERE y.StampIn < @target_date  and y.Command like 'Starter_%'
+group by y.Serial 
+
+UPDATE #CAC_report
+SET 
+LAST_STARTER_COMMAND = y.command, 
+LAST_STARTER_COMMAND_DATE = y.Stampin, 
+LAST_STARTER_STATUS_POSTED_TO_CAC = CASE y.STATE WHEN 500 THEN 'SUCCESS' ELSE 'FAIL' END
+from yqueue_pre12092013 y
+JOIN #tempoldS toS ON y.queueid = toS.max_queueid
+JOIN #CAC_report c ON c.ESN = toS.Serial
+WHERE (c.LAST_STARTER_COMMAND is null and c.LAST_STARTER_COMMAND_DATE is null
+and c.LAST_STARTER_STATUS_POSTED_TO_CAC is null);
+
+
+select * INTO weekly_CACreport1
+FROM #CAC_report
+
+/* STEP 1A: SSIS weekly_CACreport1 data to [PHY-DB1A].DBA.dbo.CAC_report */
+
+USE AUTODISPATCH
+GO
+DECLARE @target_date datetime
+DECLARE @target_queue varchar(6)
+SELECT @target_date = '2015-02-23 00:00:00.000'
+SELECT @target_queue = right(convert(varchar(10),@target_date,112),6)
+
+CREATE TABLE #tempLastAlertsQueuid (
+Serial varchar(20), QueueID varchar(20));
+
+INSERT INTO #tempLastAlertsQueuid
+SELECT y.Serial, MAX(y.QueueID) as MAXQueueID
+FROM DBA.dbo.weekly_CACreport1 c(NOLOCK)
+JOIN yQueue_alerts y(NOLOCK) ON y.Serial = c.ESN
+WHERE y.Queueid < @target_queue
+GROUP BY y.Serial;
+
+WITH tempLastAlerts as (
+SELECT y.Serial, y.response as Response, y.Stampin as LAST_ALERT_DATE
+FROM #tempLastAlertsQueuid c
+JOIN yQueue_alerts y(NOLOCK) ON y.QueueID = c.QueueID)
+
+UPDATE DBA.dbo.weekly_CACreport1
+SET LAST_ALERT =  CASE tempLastAlerts.Response WHEN 'Auto Report' Then 'AutoReport' WHEN 'Low Voltage' Then 'LowVoltage' WHEN 'Power Up' Then 'PowerUp' WHEN 'Power Up / Reset' Then 'PowerUp' WHEN 'Power Up w/GPS' Then 'PowerUp' WHEN 'Power Up with GPS' Then 'PowerUp'
+ELSE 'Unknown' END, 
+LAST_ALERT_DATE = tempLastAlerts.LAST_ALERT_DATE
+from DBA.dbo.weekly_CACreport1 c(NOLOCK)
+JOIN tempLastAlerts ON c.ESN = tempLastAlerts.Serial;
+
+WITH temp30dayAlerts as (
+SELECT y.Serial, SUM(CASE y.Result WHEN '6015' Then 1 ELSE 0 END) as [30DAY_POWERUPS], SUM(CASE y.Result WHEN '6008' Then 1 ELSE 0 END) as [30DAY_LOWVOLTS]
+FROM DBA.dbo.weekly_CACreport1 c
+JOIN yQueue_alerts y(NOLOCK) ON y.Serial = c.ESN
+WHERE y.stampin >@target_date-30 and y.stampin <= @target_date
+GROUP BY y.Serial)
+
+UPDATE DBA.dbo.weekly_CACreport1
+SET 
+NUMBER_POWER_UPS_LAST_30_Days = temp30dayAlerts.[30DAY_POWERUPS], 
+NUMBER_LOW_VOLTAGE_ALERTS_LAST_30_DAYS = temp30dayAlerts.[30DAY_LOWVOLTS]
+from DBA.dbo.weekly_CACreport1
+JOIN temp30dayAlerts ON DBA.dbo.weekly_CACreport1.ESN = temp30dayAlerts.Serial;
+
+
+CREATE TABLE #lastContactDates(ESN varchar(20), CONTACT_DATE datetime);
+
+INSERT INTO #lastContactDates
+select ESN,LAST_STARTER_COMMAND_DATE from DBA.dbo.weekly_CACreport1 WHERE (NOT LAST_STARTER_COMMAND_DATE is null
+and LAST_STARTER_STATUS_POSTED_TO_CAC ='SUCCESS')
+UNION
+select ESN,LAST_LOCATE_COMMAND_DATE from DBA.dbo.weekly_CACreport1 WHERE (NOT LAST_LOCATE_COMMAND_DATE is null
+and LAST_LOCATE_STATUS_POSTED_TO_CAC ='SUCCESS')
+UNION
+select ESN,LAST_WARNING_COMMAND_DATE from DBA.dbo.weekly_CACreport1 WHERE (NOT LAST_WARNING_COMMAND_DATE is null
+and LAST_WARNING_STATUS_POSTED_TO_CAC ='SUCCESS')
+UNION
+SELECT ESN,LAST_ALERT_DATE from DBA.dbo.weekly_CACreport1 WHERE (NOT LAST_ALERT_DATE is null);
+
+
+WITH tempCONTACTSUCCESS as (
+SELECT ESN,MAX(CONTACT_DATE) as LAST_SUCCESSFUL_CONTACT_DATE
+FROM #lastContactDates
+GROUP BY ESN
+)
+
+UPDATE DBA.dbo.weekly_CACreport1
+SET 
+LAST_SUCCESSFUL_CONTACT_DATE = tempCONTACTSUCCESS.LAST_SUCCESSFUL_CONTACT_DATE, 
+NUMBER_DAYS_LAST_SUCCESSFUL_CONTACT = DATEDIFF(D,tempCONTACTSUCCESS.LAST_SUCCESSFUL_CONTACT_DATE,@target_date)
+from DBA.dbo.weekly_CACreport1
+JOIN tempCONTACTSUCCESS ON DBA.dbo.weekly_CACreport1.ESN = tempCONTACTSUCCESS.ESN;
+GO
+USE DBA
+GO
+DECLARE @new_name varchar(50)
+DECLARE @target_date datetime
+DECLARE @target_queue varchar(6)
+SELECT @target_date = '2015-02-23 00:00:00.000'
+SELECT @target_queue = right(convert(varchar(10),@target_date,112),6)
+
+SELECT @new_name = 'rpt_CACreport_' + @target_queue
+exec sp_rename weekly_CACreport1,@new_name
