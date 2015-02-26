@@ -1,4 +1,4 @@
--- step 1: run on QA-DB1A.autodispatch_reports
+/* run on QA-DB1A.autodispatch_reports */
 USE [AUTODISPATCH_reports]
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[weekly_CACreport1]') AND type in (N'U'))
@@ -64,12 +64,7 @@ join AUTODISPATCH_Atlas a on a.Serial = r.ESN
 join AUTODISPATCH_MINs m on a.[MIN] = m.[MIN]
 join AUTODISPATCH_carriers c on m.SIDH = c.SIDH
 
---select count(*) from #CAC_report;
-
 CREATE CLUSTERED INDEX idx_ESN ON #CAC_report(ESN);
-
---DECLARE @target_date datetime
---SELECT @target_date = '2014-08-25 00:00:00.000'
 
 /* warning latest */
 select y.Serial,max(y.queueid) as max_queueid
@@ -78,7 +73,6 @@ from yQueueLatest y(NOLOCK)
 JOIN #CAC_report c(nolock) ON y.Serial = c.ESN
 WHERE y.StampIn < @target_date  and y.Command like 'WARNING_%'
 group by y.Serial 
-
 
 UPDATE #CAC_report
 SET 
@@ -109,14 +103,12 @@ WHERE (c.LAST_WARNING_COMMAND is null and c.LAST_WARNING_COMMAND_DATE is null
 and c.LAST_WARNING_STATUS_POSTED_TO_CAC is null);
 
 /* locate latest */
-
 select y.Serial,max(y.queueid) as max_queueid
 INTO #temptestL
 from yQueueLatest y(NOLOCK)  
 JOIN #CAC_report c(nolock) ON y.Serial = c.ESN
 WHERE y.StampIn < @target_date  and y.Command like 'Locate_%'
 group by y.Serial 
-
 
 UPDATE #CAC_report
 SET 
@@ -128,9 +120,6 @@ JOIN #temptestL ttL(nolock) ON y.queueid = ttL.max_queueid
 JOIN #CAC_report c(nolock) ON c.ESN = ttL.Serial;
 
 /* locate old */
---DECLARE @target_date datetime
---SELECT @target_date = '2014-08-25 00:00:00.000'
-
 select y.Serial,max(y.queueid) as max_queueid
 INTO #tempoldL
 from yqueue_pre12092013 y(NOLOCK)  
@@ -148,10 +137,6 @@ JOIN #tempoldL toL ON y.queueid = toL.max_queueid
 JOIN #CAC_report c ON c.ESN = toL.Serial
 WHERE (c.LAST_LOCATE_COMMAND is null and c.LAST_LOCATE_COMMAND_DATE is null
 and c.LAST_LOCATE_STATUS_POSTED_TO_CAC is null); 
-
-
---DECLARE @target_date datetime
---SELECT @target_date = '2014-08-25 00:00:00.000'
 
 /* starter latest */
 select y.Serial,max(y.queueid) as max_queueid
@@ -171,10 +156,6 @@ JOIN #temptestS ttS(nolock) ON y.queueid = ttS.max_queueid
 JOIN #CAC_report c(nolock) ON c.ESN = ttS.Serial;
 
 /* starter old */
-
---DECLARE @target_date datetime
---SELECT @target_date = '2014-08-25 00:00:00.000'
-
 select y.Serial,max(y.queueid) as max_queueid
 INTO #tempoldS
 from yqueue_pre12092013 y(NOLOCK)  
@@ -193,11 +174,10 @@ JOIN #CAC_report c ON c.ESN = toS.Serial
 WHERE (c.LAST_STARTER_COMMAND is null and c.LAST_STARTER_COMMAND_DATE is null
 and c.LAST_STARTER_STATUS_POSTED_TO_CAC is null);
 
-
 select * INTO weekly_CACreport1
 FROM #CAC_report
 
-/* STEP 1A: SSIS weekly_CACreport1 data to [PHY-DB1A].DBA.dbo.CAC_report */
+/* ETL weekly_CACreport1 data to [PHY-DB1A].DBA.dbo.CAC_report */
 
 USE AUTODISPATCH
 GO
@@ -242,7 +222,6 @@ NUMBER_LOW_VOLTAGE_ALERTS_LAST_30_DAYS = temp30dayAlerts.[30DAY_LOWVOLTS]
 from DBA.dbo.weekly_CACreport1
 JOIN temp30dayAlerts ON DBA.dbo.weekly_CACreport1.ESN = temp30dayAlerts.Serial;
 
-
 CREATE TABLE #lastContactDates(ESN varchar(20), CONTACT_DATE datetime);
 
 INSERT INTO #lastContactDates
@@ -256,7 +235,6 @@ select ESN,LAST_WARNING_COMMAND_DATE from DBA.dbo.weekly_CACreport1 WHERE (NOT L
 and LAST_WARNING_STATUS_POSTED_TO_CAC ='SUCCESS')
 UNION
 SELECT ESN,LAST_ALERT_DATE from DBA.dbo.weekly_CACreport1 WHERE (NOT LAST_ALERT_DATE is null);
-
 
 WITH tempCONTACTSUCCESS as (
 SELECT ESN,MAX(CONTACT_DATE) as LAST_SUCCESSFUL_CONTACT_DATE
