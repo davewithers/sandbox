@@ -161,6 +161,16 @@ db.deviceCommandEvent.ensureIndex(
       "sparse": true
     }
 )
+db.deviceCommandEvent.ensureIndex (
+    {
+      "accountId": 1,
+      "deviceId": 1,
+      "dateCreated": -1
+    },
+    {
+      "name": "accountId_1_deviceId_1_dateCreated_-1"
+    }
+)
 
 //---------------------------------
 //---- deviceCommandSpecEvent -----
