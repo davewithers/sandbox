@@ -223,6 +223,7 @@ db.deviceDetail.ensureIndex(
       "name": "accountId_1_landmarkId_1"
     }
 )
+db.deviceDetail.createIndex( { location : "2d" , accountId : 1 })
 
 //---------------------------------
 //----- deviceEvent --------
