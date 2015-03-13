@@ -4,7 +4,7 @@
 
 use account
 db.createCollection("accountDetail")
-db.addUser(
+db.createUser(
     {
       user: "procon",
       roles: ["readWrite", "dbAdmin"],
@@ -34,7 +34,7 @@ db.accountDetail.ensureIndex(
 
 use assetCluster
 db.createCollection("assetCluster")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -48,7 +48,7 @@ db.addUser(
 
 use assetGroup
 db.createCollection("assetGroupDetail")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -78,7 +78,7 @@ sh.enableSharding("deviceAlert")
 //-- shard empty collection (deviceAlert)
 sh.shardCollection("deviceAlert.deviceAlert", {"accountId": 1, "deviceId": 1})
 
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -134,7 +134,7 @@ db.deviceAlert.ensureIndex(
 
 use deviceCommand
 db.createCollection("deviceCommandEvent")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -178,7 +178,7 @@ db.deviceCommandEvent.ensureIndex (
 
 use deviceCommand
 db.createCollection("deviceCommandSpecEvent")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -213,7 +213,7 @@ db.deviceCommandSpecEvent.ensureIndex(
 
 use device
 db.createCollection("deviceDetail")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -277,7 +277,7 @@ db.deviceDetail.createIndex( { location : "2d" , accountId : 1 })
 
 use deviceEvent
 db.createCollection("deviceEvent")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -291,7 +291,7 @@ db.addUser(
 
 use geofenceEvent
 db.createCollection("deviceGeofenceEvent")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -335,7 +335,7 @@ db.deviceGeofenceEvent.ensureIndex(
 
 use deviceJobEvent
 db.createCollection("deviceJobEvent")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -370,7 +370,7 @@ db.deviceJobEvent.ensureIndex(
 
 use landmarkEvent
 db.createCollection("deviceLandmarkEvent")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -415,7 +415,7 @@ db.deviceLandmarkEvent.ensureIndex(
 
 use deviceMessageEvent
 db.createCollection("deviceMessageEvent")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -450,7 +450,7 @@ db.deviceMessageEvent.ensureIndex(
 
 use devicePayload
 db.createCollection("devicePayload")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -469,7 +469,7 @@ sh.enableSharding("deviceState")
 //-- shard on empty collection (deviceState)
 sh.shardCollection("deviceState.deviceState", {"accountId": 1, "deviceId": 1})
 
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -517,7 +517,7 @@ sh.enableSharding("deviceStateEvent")
 //-- shard empty collection (deviceStateEvent)
 sh.shardCollection("deviceStateEvent.deviceStateEvent", {"accountId": 1, "deviceId": 1})
 
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -553,7 +553,7 @@ use tempMapReduce
 db.createCollection("tempMapReduce")
 db.createCollection("deviceStateMetric")
 db.createCollection("landmarkCluster")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -567,7 +567,7 @@ db.addUser(
 
 use fuelCard
 db.createCollection("fuelCardTransaction")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -612,7 +612,7 @@ db.fuelCardTransaction.ensureIndex(
 
 use landmark
 db.createCollection("landmarkDetail")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -655,7 +655,7 @@ db.landmarkDetail.ensureIndex(
 
 use landmarkGroup
 db.createCollection("landmarkGroupDetail")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -689,7 +689,7 @@ db.landmarkGroupDetail.ensureIndex(
 
 use landmarkState
 db.createCollection("landmarkState")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -724,7 +724,7 @@ db.landmarkState.ensureIndex(
 
 use maintenanceState
 db.createCollection("maintenanceState")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -738,7 +738,7 @@ db.addUser(
 
 use metricSummary
 db.createCollection("metricSummary")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -760,7 +760,7 @@ db.metricSummary.ensureIndex(
 
 use metricValue
 db.createCollection("metricValue")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -784,7 +784,7 @@ db.metricValue.ensureIndex(
 
 use netSuite
 db.createCollection("netSuiteAuditLog")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -806,7 +806,7 @@ db.netSuiteAuditLog.ensureIndex(
 
 use notes
 db.createCollection("notes")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -820,7 +820,7 @@ db.addUser(
 
 use nspireJobResult
 db.createCollection("nspireJobResult")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -834,7 +834,7 @@ db.addUser(
 
 use reportResult
 db.createCollection("reportResult")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -907,7 +907,7 @@ sh.enableSharding("taskHistory")
 //-- shard empty collection (taskHistory)
 sh.shardCollection("taskHistory.taskHistory", {"refType": 1, "refId": 1})
 
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -949,7 +949,7 @@ db.createCollection("utilizationReport")
 
 use warehouseValue
 db.createCollection("warehouseValue")
-db.addUser(
+db.createUser(
     {
       user: "procon",
 	  pwd: "procon4admin" ,
@@ -984,7 +984,7 @@ db.warehouseValue.ensureIndex(
 
 use order2cash
 db.createCollection("o2cActivationLog")
-db.addUser(
+db.createUser(
     {
       user: "procon",
       pwd: "procon4admin",
