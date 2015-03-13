@@ -574,7 +574,7 @@ db.createUser(
       roles: ["readWrite", "dbAdmin"]
     }
 )
-sh.enableSharding("fuelCardTransaction")
+sh.enableSharding("fuelCard")
 sh.shardCollection("fuelCard.fuelCardTransaction", {"accountId": 1, "assetId": 1})
 
 db.fuelCardTransaction.ensureIndex(
