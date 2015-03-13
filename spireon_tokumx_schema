@@ -575,7 +575,7 @@ db.createUser(
     }
 )
 sh.enableSharding("fuelCardTransaction")
-sh.shardCollection("fuelCardTransaction.fuelCardTransaction", {"accountId": 1, "assetId": 1})
+sh.shardCollection("fuelCard.fuelCardTransaction", {"accountId": 1, "assetId": 1})
 
 db.fuelCardTransaction.ensureIndex(
     {
