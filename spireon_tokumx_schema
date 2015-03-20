@@ -648,6 +648,7 @@ db.landmarkDetail.ensureIndex(
       "name": "key_1"
     }
 )
+db.landmarkDetail.createIndex( { location : "2d" , accountId : 1 })
 
 //---------------------------------
 //----- landmarkGroupDetail -------
