@@ -1016,3 +1016,50 @@ db.o2cActivationLog.ensureIndex(
 
 use order2cash
 db.createCollection("o2cDeviceTestLog")
+
+//---------------------------------
+//------- deviceTrip --------------
+//---------------------------------
+
+use deviceTrip
+db.createCollection("deviceTrip")
+sh.enableSharding("deviceTrip")
+
+//-- shard empty collection (deviceTrip)
+sh.shardCollection("deviceTrip.deviceTrip", {"accountId": 1, "deviceId": 1})
+
+db.createUser(
+    {
+      user: "procon",
+	  pwd: "procon4admin" ,
+      roles: ["readWrite", "dbAdmin"]
+    }
+)
+
+db.deviceTrip.ensureIndex(
+    {
+      "accountId": 1,
+      "deviceId": 1,
+	  "startDate": 1
+    },
+    {
+      "name": "accountId_1_deviceId_1_startDate_1"
+    }
+)
+db.deviceTrip.ensureIndex(
+    {
+      "endDate": 1
+    },
+    {
+      "name": "endDate_1"
+    }
+)
+db.deviceTrip.ensureIndex(
+    {
+      "inProgress": 1
+    },
+    {
+      "name": "inProgress_1",
+	  "sparse": true
+    }
+)
