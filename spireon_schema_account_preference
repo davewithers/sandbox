@@ -1,0 +1,18 @@
+create table account_preference
+(
+id BIGINT(20) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+version BIGINT(20) NOT NULL,
+account_id BIGINT(20) NOT NULL,
+active BIT(1) NOT NULL,
+category VARCHAR(255),
+created_by VARCHAR(255) NOT NULL,
+date_created DATETIME NOT NULL,
+editable BIT(1) NOT NULL,
+last_updated DATETIME NOT NULL,
+name VARCHAR(400) NOT NULL,
+tags VARCHAR(800),
+updated_by VARCHAR(255) NOT NULL,
+value LONGTEXT NOT NULL,
+value_type VARCHAR(7) NOT NULL,
+visible BIT(1) NOT NULL 
+);
