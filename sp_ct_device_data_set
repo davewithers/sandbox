@@ -1,0 +1,71 @@
+DELIMITER $$
+CREATE DEFINER=`mlevey`@`localhost` PROCEDURE `sp_ct_device_data_set`(p_start_date date, p_end_date date, p_device_id int)
+BEGIN 
+	DECLARE var_table_name varchar(50);
+	DECLARE done INT DEFAULT 0;
+
+	DEClARE table_cursor CURSOR FOR 
+	select table_name from (select table_name, replace(trim((substring_index(table_name,'_',-3))),'_','-')  as dates from information_schema.tables where  table_schema='locations_ct' and  table_name like  "ct_2%") a where dates >=p_start_date and  dates<=p_end_date ;
+	
+	DECLARE continue handler for not found set done=1;
+	
+	DROP TABLE IF EXISTS temp_ct_data_collect;
+	select 1;
+	CREATE TEMPORARY TABLE temp_ct_data_collect (
+									id int(11) NOT NULL,
+									device_id int(8) NOT NULL DEFAULT '0',
+									date timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+									type_id smallint(1) NOT NULL DEFAULT '0',
+									status tinyint(4) NOT NULL DEFAULT '0',
+									lat decimal(9,6) NOT NULL DEFAULT '0.000000',
+									lng decimal(9,6) NOT NULL DEFAULT '0.000000',
+									speed smallint(2) NOT NULL DEFAULT '-1',
+									heading smallint(2) NOT NULL DEFAULT '-1',
+									distance bigint(4) NOT NULL DEFAULT '0',
+									total_distance bigint(11) NOT NULL DEFAULT '0',
+									altitude smallint(6) NOT NULL DEFAULT '-1',
+									address_id int(4) unsigned NOT NULL DEFAULT '0',
+									geofence_id int(11) unsigned NOT NULL DEFAULT '0',
+									state_id tinyint(1) NOT NULL DEFAULT '-1',
+									quality tinyint(2) NOT NULL DEFAULT '-1',
+									fix_status tinyint(4) NOT NULL DEFAULT '-1',
+									fix_date timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+									satellites tinyint(4) NOT NULL DEFAULT '-1',
+									carrier smallint(6) NOT NULL DEFAULT '-1',
+									rssi smallint(6) NOT NULL DEFAULT '-1',
+									comm_state tinyint(4) NOT NULL DEFAULT '-1',
+									input_state tinyint(4) NOT NULL DEFAULT '-1',
+									unit_status tinyint(4) NOT NULL DEFAULT '-1',
+									max_speed smallint(6) NOT NULL DEFAULT '-1',
+									max_accel tinyint(4) NOT NULL DEFAULT '-1',
+									max_decel tinyint(4) NOT NULL DEFAULT '-1',
+									voltage float NOT NULL DEFAULT '-1',
+									engine_hrs bigint(11) NOT NULL DEFAULT '-1',
+									adc_volts int(11) NOT NULL DEFAULT '-1',
+									batt_volts int(11) NOT NULL DEFAULT '-1',
+									temp int(11) NOT NULL DEFAULT '-1',
+									extras_id int(6) unsigned NOT NULL DEFAULT '0',
+									created timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+									driver_id bigint(20) NOT NULL DEFAULT '0'
+									) ENGINE=MyISAM;
+	OPEN table_cursor;
+
+		tab_loop: LOOP
+			FETCH table_cursor INTO var_table_name;
+
+			IF done=1 then
+				LEAVE  tab_loop;
+			END IF;
+
+			SET @stmt2=CONCAT("INSERT INTO temp_ct_data_collect(id , device_id , date , type_id , status , lat , lng , speed , heading , distance , total_distance , altitude , address_id , geofence_id , state_id , quality , fix_status , fix_date , satellites , carrier , rssi , comm_state , input_state , unit_status , max_speed , max_accel , max_decel , voltage , engine_hrs , adc_volts , batt_volts , temp , extras_id , created , driver_id) SELECT id , device_id , date , type_id , status , lat , lng , speed , heading , distance , total_distance , altitude , address_id , geofence_id , state_id , quality , fix_status , fix_date , satellites , carrier , rssi , comm_state , input_state , unit_status , max_speed , max_accel , max_decel , voltage , engine_hrs , adc_volts , batt_volts , temp , extras_id , created , driver_id FROM locations_ct.",var_table_name ," WHERE device_id=",p_device_id);
+			
+			PREPARE insert_stmt from @stmt2;
+			EXECUTE insert_stmt;
+			DEALLOCATE PREPARE insert_stmt;
+		END LOOP tab_loop;
+	
+	CLOSE table_cursor;
+	
+	SELECT * FROM temp_ct_data_collect;
+ END$$
+DELIMITER ;
