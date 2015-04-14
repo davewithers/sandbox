@@ -814,6 +814,8 @@ db.createUser(
       roles: ["readWrite", "dbAdmin"]
     }
 )
+sh.enableSharding("notes")
+sh.shardCollection("notes.notes", {"_id": 1})
 
 //---------------------------------
 //----- nspireJobResult -----------
