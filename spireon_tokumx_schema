@@ -493,9 +493,7 @@ db.deviceState.ensureIndex(
 	  "eventDate": -1
     },
     {
-      "name": "accountId_1_deviceId_1_eventDate_-1"
-    },
-    { background:true}
+      "name": "accountId_1_deviceId_1_eventDate_-1", background:true}
 )
 db.deviceState.ensureIndex(
     {
@@ -504,9 +502,7 @@ db.deviceState.ensureIndex(
 	  "endDate": -1
     },
     {
-      "name": "accountId_1_deviceId_1_endDate_-1"
-    },
-    { background:true}
+      "name": "accountId_1_deviceId_1_endDate_-1", background:true}
 )
 
 //---------------------------------
@@ -605,9 +601,7 @@ db.fuelCardTransaction.ensureIndex(
 	  "transactionDate": -1
     },
     {
-      "name": "accountId_1_deviceId_1_transactionDate_-1"
-    },
-    {background: true})
+      "name": "accountId_1_deviceId_1_transactionDate_-1", background: true})
 
 //---------------------------------
 //----- landmarkDetail ------------
@@ -777,8 +771,7 @@ db.metricValue.ensureIndex(
 	  "key": 1
     },
     {
-      "name": "accountId_key_1",
-	  "background" : true
+      "name": "accountId_key_1","background" : true
     }
 )
 
