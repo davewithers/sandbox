@@ -488,11 +488,12 @@ db.deviceState.ensureIndex(
 )
 db.deviceState.ensureIndex(
     {
+      "accountId":1,
       "deviceId": 1,
 	  "eventDate": -1
     },
     {
-      "name": "deviceId_1_eventDate_-1"
+      "name": "accountId_1_deviceId_1_eventDate_-1"
     }
 )
 db.deviceState.ensureIndex(
