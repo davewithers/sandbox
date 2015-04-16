@@ -494,7 +494,9 @@ db.deviceState.ensureIndex(
     },
     {
       "name": "accountId_1_deviceId_1_eventDate_-1"
-    }
+    },
+    ,
+    { background:true}
 )
 db.deviceState.ensureIndex(
     {
