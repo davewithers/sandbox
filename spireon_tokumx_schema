@@ -504,7 +504,8 @@ db.deviceState.ensureIndex(
     },
     {
       "name": "accountId_1_deviceId_1_endDate_-1"
-    }
+    },
+    { background:true}
 )
 
 //---------------------------------
