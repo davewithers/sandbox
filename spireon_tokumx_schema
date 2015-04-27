@@ -646,7 +646,15 @@ db.landmarkDetail.createIndex(
     }
 )
 db.landmarkDetail.createIndex( { location : "2d" , accountId : 1 })
-
+db.landmarkDetail.createIndex(
+    {
+	  "accountId": 1,
+          "name": 1
+    },
+    {
+      "name": "accountId_1_name_1"
+    }
+)
 //---------------------------------
 //----- landmarkGroupDetail -------
 //---------------------------------
