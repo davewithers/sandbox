@@ -4,13 +4,6 @@
 
 use account
 db.createCollection("accountDetail")
-db.createUser(
-    {
-      user: "procon",
-      roles: ["readWrite", "dbAdmin"],
-	  pwd: "procon4admin" ,
-    }
-)
 db.accountDetail.createIndex(
     {
       "key": 1
@@ -34,13 +27,6 @@ db.accountDetail.createIndex(
 
 use assetCluster
 db.createCollection("assetCluster")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 
 //---------------------------------
 //------- assetGroupDetail --------
@@ -48,13 +34,6 @@ db.createUser(
 
 use assetGroup
 db.createCollection("assetGroupDetail")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 sh.enableSharding("assetGroup")
 sh.shardCollection("assetGroup.assetGroupDetail", {"accountId": 1, "assetGroupId": 1})
 db.assetGroupDetail.createIndex(
@@ -77,14 +56,6 @@ sh.enableSharding("deviceAlert")
 
 //-- shard empty collection (deviceAlert)
 sh.shardCollection("deviceAlert.deviceAlert", {"accountId": 1, "deviceId": 1})
-
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 
 db.deviceAlert.createIndex(
     {
@@ -134,13 +105,7 @@ db.deviceAlert.createIndex(
 
 use deviceCommand
 db.createCollection("deviceCommandEvent")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
+
 sh.enableSharding("deviceCommand")
 sh.shardCollection("deviceCommand.deviceCommandEvent", {"accountId": 1, "deviceId": 1})
 db.deviceCommandEvent.createIndex(
@@ -178,13 +143,6 @@ db.deviceCommandEvent.createIndex (
 
 use deviceCommand
 db.createCollection("deviceCommandSpecEvent")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 sh.shardCollection("deviceCommand.deviceCommandSpecEvent", {"accountId": 1, "deviceCommandSpecId": 1})
 db.deviceCommandSpecEvent.createIndex(
     {
@@ -213,13 +171,6 @@ db.deviceCommandSpecEvent.createIndex(
 
 use device
 db.createCollection("deviceDetail")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 sh.enableSharding("device")
 sh.shardCollection("device.deviceDetail", {"accountId": 1, "deviceId": 1})
 db.deviceDetail.createIndex(
@@ -277,13 +228,6 @@ db.deviceDetail.createIndex( { location : "2d" , accountId : 1 })
 
 use deviceEvent
 db.createCollection("deviceEvent")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 
 //---------------------------------
 //----- deviceGeofenceEvent -------
@@ -291,13 +235,6 @@ db.createUser(
 
 use geofenceEvent
 db.createCollection("deviceGeofenceEvent")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 sh.enableSharding("geofenceEvent")
 sh.shardCollection("geofenceEvent.deviceGeofenceEvent", {"accountId": 1, "deviceId": 1})
 db.deviceGeofenceEvent.createIndex(
@@ -335,13 +272,6 @@ db.deviceGeofenceEvent.createIndex(
 
 use deviceJobEvent
 db.createCollection("deviceJobEvent")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 sh.enableSharding("deviceJobEvent")
 sh.shardCollection("deviceJobEvent.deviceJobEvent", {"accountId": 1, "deviceId": 1})
 db.deviceJobEvent.createIndex(
@@ -370,13 +300,7 @@ db.deviceJobEvent.createIndex(
 
 use landmarkEvent
 db.createCollection("deviceLandmarkEvent")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
+
 sh.enableSharding("landmarkEvent")
 sh.shardCollection("landmarkEvent.deviceLandmarkEvent", {"accountId": 1, "deviceId": 1})
 db.deviceLandmarkEvent.createIndex(
@@ -415,13 +339,6 @@ db.deviceLandmarkEvent.createIndex(
 
 use deviceMessageEvent
 db.createCollection("deviceMessageEvent")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 sh.enableSharding("deviceMessageEvent")
 sh.shardCollection("deviceMessageEvent.deviceMessageEvent", {"accountId": 1, "deviceId": 1})
 db.deviceMessageEvent.createIndex(
@@ -450,13 +367,6 @@ db.deviceMessageEvent.createIndex(
 
 use devicePayload
 db.createCollection("devicePayload")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 
 //---------------------------------
 //----- deviceState ---------------
@@ -468,14 +378,6 @@ sh.enableSharding("deviceState")
 
 //-- shard on empty collection (deviceState)
 sh.shardCollection("deviceState.deviceState", {"accountId": 1, "deviceId": 1})
-
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 
 db.deviceState.createIndex(
     {
@@ -516,14 +418,6 @@ sh.enableSharding("deviceStateEvent")
 //-- shard empty collection (deviceStateEvent)
 sh.shardCollection("deviceStateEvent.deviceStateEvent", {"accountId": 1, "deviceId": 1})
 
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
-
 db.deviceStateEvent.createIndex(
     {
       "accountId": 1,
@@ -552,13 +446,6 @@ use tempMapReduce
 db.createCollection("tempMapReduce")
 db.createCollection("deviceStateMetric")
 db.createCollection("landmarkCluster")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 
 //---------------------------------
 //----- fuelCardTransaction -------
@@ -566,13 +453,6 @@ db.createUser(
 
 use fuelCard
 db.createCollection("fuelCardTransaction")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 sh.enableSharding("fuelCard")
 sh.shardCollection("fuelCard.fuelCardTransaction", {"accountId": 1, "assetId": 1})
 
@@ -609,13 +489,6 @@ db.fuelCardTransaction.createIndex(
 
 use landmark
 db.createCollection("landmarkDetail")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 sh.enableSharding("landmark")
 sh.shardCollection("landmark.landmarkDetail", {"accountId": 1, "landmarkId": 1})
 db.landmarkDetail.createIndex(
@@ -661,13 +534,6 @@ db.landmarkDetail.createIndex(
 
 use landmarkGroup
 db.createCollection("landmarkGroupDetail")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 sh.enableSharding("landmarkGroup")
 sh.shardCollection("landmarkGroup.landmarkGroupDetail", {"accountId": 1, "landmarkGroupId": 1})
 db.landmarkGroupDetail.createIndex(
@@ -695,13 +561,6 @@ db.landmarkGroupDetail.createIndex(
 
 use landmarkState
 db.createCollection("landmarkState")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 sh.enableSharding("landmarkState")
 sh.shardCollection("landmarkState.landmarkState", {"accountId": 1, "landmarkId": 1})
 db.landmarkState.createIndex(
@@ -730,13 +589,6 @@ db.landmarkState.createIndex(
 
 use maintenanceState
 db.createCollection("maintenanceState")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 
 //---------------------------------
 //----- metricSummary -------------
@@ -744,13 +596,6 @@ db.createUser(
 
 use metricSummary
 db.createCollection("metricSummary")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 db.metricSummary.createIndex(
     {
 	  "key": 1
@@ -766,13 +611,6 @@ db.metricSummary.createIndex(
 
 use metricValue
 db.createCollection("metricValue")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 db.metricValue.createIndex(
     {
 	  "accountId": 1,
@@ -789,13 +627,6 @@ db.metricValue.createIndex(
 
 use netSuite
 db.createCollection("netSuiteAuditLog")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 db.netSuiteAuditLog.createIndex(
     {
 	  "nsOrderId": 1
@@ -811,13 +642,6 @@ db.netSuiteAuditLog.createIndex(
 
 use notes
 db.createCollection("notes")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 sh.enableSharding("notes")
 sh.shardCollection("notes.notes", {"_id": 1})
 
@@ -827,13 +651,6 @@ sh.shardCollection("notes.notes", {"_id": 1})
 
 use nspireJobResult
 db.createCollection("nspireJobResult")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 
 //---------------------------------
 //----- reportResult -----------
@@ -841,13 +658,6 @@ db.createUser(
 
 use reportResult
 db.createCollection("reportResult")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 sh.enableSharding("reportResult")
 sh.shardCollection("reportResult.reportResult", {"accountId": 1, "reportTypeId": 1})
 db.reportResult.createIndex(
@@ -914,14 +724,6 @@ sh.enableSharding("taskHistory")
 //-- shard empty collection (taskHistory)
 sh.shardCollection("taskHistory.taskHistory", {"refType": 1, "refId": 1})
 
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
-
 db.taskHistory.createIndex(
     {
       "refType": 1,
@@ -956,13 +758,6 @@ db.createCollection("utilizationReport")
 
 use warehouseValue
 db.createCollection("warehouseValue")
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 sh.enableSharding("warehouseValue")
 sh.shardCollection("warehouseValue.warehouseValue", {"accountId": 1, "deviceId": 1})
 db.warehouseValue.createIndex(
@@ -991,13 +786,6 @@ db.warehouseValue.createIndex(
 
 use order2cash
 db.createCollection("o2cActivationLog")
-db.createUser(
-    {
-      user: "procon",
-      pwd: "procon4admin",
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 
 db.o2cActivationLog.createIndex(
     {
@@ -1033,14 +821,6 @@ sh.enableSharding("deviceTrip")
 
 //-- shard empty collection (deviceTrip)
 sh.shardCollection("deviceTrip.deviceTrip", {"accountId": 1, "deviceId": 1})
-
-db.createUser(
-    {
-      user: "procon",
-	  pwd: "procon4admin" ,
-      roles: ["readWrite", "dbAdmin"]
-    }
-)
 
 db.deviceTrip.createIndex(
     {
