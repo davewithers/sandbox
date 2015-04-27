@@ -437,10 +437,10 @@ db.deviceMessageEvent.createIndex(
     {
       "accountId": 1,
       "deviceId": 1,
-	  "eventDate": -1
+      "dateCreated": -1
     },
     {
-      "name": "accountId_deviceId_1_eventDate_-1"
+      "name": "accountId_deviceId_1_dateCreated_-1"
     }
 )
 
