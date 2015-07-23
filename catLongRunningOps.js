@@ -2,7 +2,7 @@
 catLongRunningOps = function(maxSecsRunning) {
     db.currentOp().inprog.forEach(
         function(d) {
-            if (d.secs_running > maxSecsRunning && d.op == "query" && !d.ns.startsWith("local") && d.ns.match(/procon.*/)) {
+            if (d.secs_running > maxSecsRunning && d.op == "query" && !d.ns.startsWith("local")) {
                 print("---------------------------")   
                 print("secs_running:", d.secs_running)
                 print("opid:", d.opid)
